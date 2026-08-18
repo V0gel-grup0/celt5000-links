@@ -22,7 +22,7 @@ a{color:inherit}.page{width:min(941px,100%);margin:auto;position:relative;z-inde
 <body>
 <main class="page">
   <section class="hero-wrap" id="inicio" aria-label="Apresentação do CELT5000">
-    <img class="hero-img" src="assets/hero-celt5000.webp" alt="CELT5000 Grupo Vogel com equipamento em destaque">
+    <img class="hero-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="CELT5000 Grupo Vogel com equipamento em destaque">
     <button class="menu-hit" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"></button>
     <nav class="menu" id="menu" aria-label="Menu principal">
       <a href="#inicio">Início <span>⌂</span></a>
@@ -56,5 +56,12 @@ function closeMenu(){btn.setAttribute('aria-expanded','false');menu.classList.re
 btn.addEventListener('click',()=>{const open=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!open));menu.classList.toggle('open',!open)});
 menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!btn.contains(e.target))closeMenu()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+</script>
+
+<script>
+const hero=document.querySelector('.hero-img');
+Promise.all(['00','01','02','03','04','05','06'].map(n=>fetch(`assets/hero-parts/${n}.txt?v=4`).then(r=>{if(!r.ok)throw new Error(`hero ${n}: ${r.status}`);return r.text();})))
+.then(parts=>{hero.src='data:image/webp;base64,'+parts.join('');})
+.catch(err=>{console.error(err);hero.alt='Não foi possível carregar a imagem principal do CELT5000';});
 </script>
 </body></html>
